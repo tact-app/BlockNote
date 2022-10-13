@@ -26,18 +26,8 @@
   "type": "module",
   "source": "src/index.ts",
   "types": "./types/src/index.d.ts",
-  "main": "./dist/blocknote.umd.cjs",
+  "main": "./src",
   "module": "./dist/blocknote.js",
-  "exports": {
-    ".": {
-      "import": "./dist/blocknote.js",
-      "require": "./dist/blocknote.umd.cjs"
-    },
-    "./style.css": {
-      "import": "./dist/style.css",
-      "require": "./dist/style.css"
-    }
-  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
