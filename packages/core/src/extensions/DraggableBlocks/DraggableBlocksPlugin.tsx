@@ -141,6 +141,7 @@ export const createDraggableBlocksPlugin = () => {
       dropElement = document.createElement("div");
       dropElement.setAttribute("draggable", "true");
       dropElement.style.position = "absolute";
+      dropElement.style.zIndex = "10000";
       dropElement.style.height = "24px"; // default height
       document.body.append(dropElement);
 
