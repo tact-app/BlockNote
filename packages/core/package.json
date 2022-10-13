@@ -1,5 +1,5 @@
 {
-  "name": "@blocknote/core",
+  "name": "tact-block-note-core",
   "homepage": "https://github.com/yousefed/blocknote",
   "private": false,
   "license": "MPL-2.0",
