@@ -56,35 +56,35 @@ NESTED BLOCKS
 
 /* NESTED BLOCK ANIMATIONS */
 
-[data-prev-depthchange="1"] {
+.blockGroup [data-prev-depthchange="1"] {
   --x: 1;
 }
-[data-prev-depthchange="2"] {
+.blockGroup [data-prev-depthchange="2"] {
   --x: 2;
 }
-[data-prev-depthchange="3"] {
+.blockGroup [data-prev-depthchange="3"] {
   --x: 3;
 }
-[data-prev-depthchange="4"] {
+.blockGroup [data-prev-depthchange="4"] {
   --x: 4;
 }
-[data-prev-depthchange="5"] {
+.blockGroup [data-prev-depthchange="5"] {
   --x: 5;
 }
 
-[data-prev-depthchange="-1"] {
+.blockGroup [data-prev-depthchange="-1"] {
   --x: -1;
 }
-[data-prev-depthchange="-2"] {
+.blockGroup [data-prev-depthchange="-2"] {
   --x: -2;
 }
-[data-prev-depthchange="-3"] {
+.blockGroup [data-prev-depthchange="-3"] {
   --x: -3;
 }
-[data-prev-depthchange="-4"] {
+.blockGroup [data-prev-depthchange="-4"] {
   --x: -4;
 }
-[data-prev-depthchange="-5"] {
+.blockGroup [data-prev-depthchange="-5"] {
   --x: -5;
 }
 
