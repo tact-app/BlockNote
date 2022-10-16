@@ -90,8 +90,9 @@ function dragStart(e: DragEvent, view: EditorView) {
     return;
   }
 
+  const bound = view.dom.getBoundingClientRect();
   let coords = {
-    left: view.dom.clientWidth / 2, // take middle of editor
+    left: bound.left + bound.width / 2, // take middle of editor
     top: e.clientY,
   };
   let pos = blockPosAtCoords(coords, view);
@@ -215,8 +216,10 @@ export const createDraggableBlocksPlugin = () => {
             // Or if the user clicked the add button
             return true;
           }
+
+          const bound = view.dom.getBoundingClientRect();
           const coords = {
-            left: view.dom.clientWidth / 2, // take middle of editor
+            left: bound.left + bound.width / 2, // take middle of editor
             top: event.clientY,
           };
           const block = getDraggableBlockFromCoords(coords, view);
