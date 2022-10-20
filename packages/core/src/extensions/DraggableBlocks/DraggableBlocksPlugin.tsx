@@ -7,17 +7,19 @@ import { DragHandle } from "./components/DragHandle";
 const serializeForClipboard = (pv as any).__serializeForClipboard;
 // code based on https://github.com/ueberdosis/tiptap/issues/323#issuecomment-506637799
 
-let horizontalAnchor: number;
+let firstBlockGroup: HTMLElement | undefined;
 function getHorizontalAnchor() {
-  if (!horizontalAnchor) {
-    const firstBlockGroup = document.querySelector(
+  if (!firstBlockGroup) {
+    firstBlockGroup = document.querySelector(
       ".ProseMirror > [class*='blockGroup']"
     ) as HTMLElement | undefined; // first block group node
-    if (firstBlockGroup) {
-      horizontalAnchor = absoluteRect(firstBlockGroup).left;
-    } // Anchor to the left of the first block group
   }
-  return horizontalAnchor;
+
+  if (firstBlockGroup) {
+    return absoluteRect(firstBlockGroup).left;
+  }
+
+  return 0;
 }
 
 export function createRect(rect: DOMRect) {
@@ -114,14 +116,23 @@ function dragStart(e: DragEvent, view: EditorView) {
   }
 }
 
+
+// When true, the drag handle with be anchored at the same level as root elements
+// When false, the drag handle with be just to the left of the element
+const horizontalPosAnchoredAtRoot = true;
+const WIDTH = 48;
+
+const setDragHandlerLeftPosition = (rectLeft: number, dropElement: HTMLElement, win: (Window & typeof globalThis) | null) => {
+  const left =
+    (horizontalPosAnchoredAtRoot ? getHorizontalAnchor() : rectLeft) -
+    WIDTH +
+    (win?.pageXOffset || 0);
+
+  dropElement.style.left = left + "px";
+}
+
 export const createDraggableBlocksPlugin = () => {
   let dropElement: HTMLElement | undefined;
-
-  const WIDTH = 48;
-
-  // When true, the drag handle with be anchored at the same level as root elements
-  // When false, the drag handle with be just to the left of the element
-  const horizontalPosAnchoredAtRoot = true;
 
   let menuShown = false;
   let addClicked = false;
@@ -149,6 +160,16 @@ export const createDraggableBlocksPlugin = () => {
       dropElement.addEventListener("dragstart", (e) =>
         dragStart(e, editorView)
       );
+
+      new ResizeObserver(() => {
+        if (firstBlockGroup) {
+          setDragHandlerLeftPosition(
+            absoluteRect(firstBlockGroup).left,
+            dropElement as HTMLElement,
+            editorView.dom.ownerDocument.defaultView
+          );
+        }
+      }).observe(editorView.dom);
 
       return {
         // update(view, prevState) {},
@@ -241,15 +262,11 @@ export const createDraggableBlocksPlugin = () => {
           const rect = absoluteRect(blockContent);
           const win = block.node.ownerDocument.defaultView!;
           const dropElementRect = dropElement.getBoundingClientRect();
-          const left =
-            (horizontalPosAnchoredAtRoot ? getHorizontalAnchor() : rect.left) -
-            WIDTH +
-            win.pageXOffset;
           rect.top +=
             rect.height / 2 - dropElementRect.height / 2 + win.pageYOffset;
 
-          dropElement.style.left = left + "px";
           dropElement.style.top = rect.top + "px";
+          setDragHandlerLeftPosition(rect.left, dropElement, win);
 
           ReactDOM.render(
             <DragHandle
