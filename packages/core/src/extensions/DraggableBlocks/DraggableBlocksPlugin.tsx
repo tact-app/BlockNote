@@ -9,11 +9,9 @@ const serializeForClipboard = (pv as any).__serializeForClipboard;
 
 let firstBlockGroup: HTMLElement | undefined;
 function getHorizontalAnchor() {
-  if (!firstBlockGroup) {
-    firstBlockGroup = document.querySelector(
-      ".ProseMirror > [class*='blockGroup']"
-    ) as HTMLElement | undefined; // first block group node
-  }
+  firstBlockGroup = document.querySelector(
+    ".ProseMirror > [class*='blockGroup']"
+  ) as HTMLElement | undefined; // first block group node
 
   if (firstBlockGroup) {
     return absoluteRect(firstBlockGroup).left;
