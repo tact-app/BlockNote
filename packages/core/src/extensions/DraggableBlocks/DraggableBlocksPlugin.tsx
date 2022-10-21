@@ -162,7 +162,7 @@ export const createDraggableBlocksPlugin = () => {
       );
 
       new ResizeObserver(() => {
-        if (firstBlockGroup) {
+        if (firstBlockGroup && dropElement) {
           setDragHandlerLeftPosition(
             absoluteRect(firstBlockGroup).left,
             dropElement as HTMLElement,
