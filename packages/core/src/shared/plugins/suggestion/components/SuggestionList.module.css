@@ -7,4 +7,6 @@
   border-radius: 4px;
   max-width: 320;
   margin: 16px auto;
+  max-height: 400px;
+  overflow: auto;
 }
